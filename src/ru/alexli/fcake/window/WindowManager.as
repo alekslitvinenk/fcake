@@ -2,6 +2,7 @@ package ru.alexli.fcake.window
 {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.errors.IllegalOperationError;
 	
 	import ru.alexli.fcake.view.ui.window.AbstractWindow;
 	import ru.alexli.fcake.view.ui.window.ModalShield;
@@ -50,7 +51,35 @@ package ru.alexli.fcake.window
 		 */		
 		private var sequenceArray:Array = [];
 		
-		public function WindowManager(container:DisplayObjectContainer)
+		private static var canBeInstantiated:Boolean;
+		
+		private static var _instance:WindowManager;
+		
+		public static function get instance():WindowManager
+		{
+			if(!_instance){
+				canBeInstantiated = true;
+				_instance = new WindowManager();
+				canBeInstantiated = false;
+			}
+			return _instance;
+		}
+		
+		public function WindowManager()
+		{
+			if(!canBeInstantiated)
+			{
+				throw new IllegalOperationError("Error!");
+			}
+		}
+		
+		/**
+		 * Register conatainer for displaying windows
+		 *  
+		 * @param container
+		 * 
+		 */		
+		public function registerContainer(container:DisplayObjectContainer):void
 		{
 			this.container = container;
 		}

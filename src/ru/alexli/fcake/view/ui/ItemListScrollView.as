@@ -33,9 +33,12 @@ package ru.alexli.fcake.view.ui
 		public function set dataProvider(value:Array):void
 		{
 			_dataProvider = value;
+			
 			if(stage){
 				commitData();
 			}
+			
+			scrollToZero();
 		}
 		
 		override protected function onShow():void{

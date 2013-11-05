@@ -14,7 +14,7 @@ package ru.alexli.fcake.view.ui.containers
 		private var rows:uint;
 		private var columns:uint;
 		
-		private var viewPort:Rectangle;
+		protected var viewPort:Rectangle;
 		
 		public function ScrollContainer(rows:uint = 2, columns:uint = 2, container:AlignContainer = null)
 		{
@@ -42,6 +42,16 @@ package ru.alexli.fcake.view.ui.containers
 			_container = value;
 		}
 
+		public function scrollToZero():void
+		{
+			if(viewPort)
+			{
+				viewPort.x = 0;
+				viewPort.y = 0;
+				
+				_container.scrollRect = viewPort;
+			}
+		}
 		
 		public function scrollRowDown():void{
 			
@@ -59,10 +69,47 @@ package ru.alexli.fcake.view.ui.containers
 			
 		}
 		
+		public function scrollPageDown():void
+		{
+			if(viewPort.y < height)
+			{
+				viewPort.y += viewPort.height;
+				_container.scrollRect = viewPort;
+			}
+		}
+		
+		public function scrollPageUp():void
+		{
+			if(viewPort.y > 0)
+			{
+				viewPort.y -= viewPort.height;
+				_container.scrollRect = viewPort;
+			}
+		}
+		
+		public function scrollPageRight():void
+		{
+			viewPort.x += viewPort.width;
+			_container.scrollRect = viewPort;
+		}
+		
+		public function scrollPageLeft():void
+		{
+			if(viewPort.x > 0)
+			{
+				viewPort.x -= viewPort.width;
+				_container.scrollRect = viewPort;
+			}
+		}
+		
+		protected function onViewportCreated():void
+		{
+			
+		}
+		
 		//events
 		private function onItemAdded(evt:Event):void
 		{
-			
 			var obj:DisplayObject = evt.target as DisplayObject;
 			
 			if(obj.parent == _container)
@@ -84,7 +131,9 @@ package ru.alexli.fcake.view.ui.containers
 					
 					viewPort = new Rectangle(0, 0, w, h);
 					
-					scrollRect = viewPort;
+					_container.scrollRect = viewPort;
+					
+					onViewportCreated();
 				}
 			}
 		}

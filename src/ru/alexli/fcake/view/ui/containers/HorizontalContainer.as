@@ -16,7 +16,7 @@ package ru.alexli.fcake.view.ui.containers
 			var pt:Point = new Point(i * (_padding.paddingLeft + itemWidth + _padding.paddingRight), _padding.paddingTop);
 			
 			if(i > 0){
-				pt.x += _padding.horizontalGap;
+				pt.x += _padding.horizontalGap * i;
 			}
 			
 			return pt;

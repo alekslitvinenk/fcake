@@ -51,8 +51,8 @@ package ru.alexli.fcake.utils
 			return mapedData[key];
 		}
 		
-		public function add(val:*):void{
-			
+		public function add(val:*):void
+		{
 			var key:* = val[field];
 			
 			var type:String;
@@ -73,14 +73,16 @@ package ru.alexli.fcake.utils
 		{
 			var key:* = val[field];
 			
+			dataChanged = true;
+			
+			var item:* = mapedData[key];
+			
 			if(mapedData[key]){
 				mapedData[key] = null;
 				delete mapedData[key];
 			}
 			
-			dataChanged = true;
-			
-			dispatchEvent(new ItemListEvent(ItemListEvent.REMOVED_FROM_LIST, key));
+			dispatchEvent(new ItemListEvent(ItemListEvent.REMOVED_FROM_LIST, item));
 		}
 		
 		private function createMap():void{
