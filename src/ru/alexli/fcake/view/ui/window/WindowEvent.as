@@ -11,6 +11,8 @@ package ru.alexli.fcake.view.ui.window
 	public class WindowEvent extends Event
 	{
 		public static const WINDOW_CLOSE:String = "window_close";
+		public static const WINDOW_STATUS_OK:String = "window_status_ok";
+		public static const WINDOW_STATUS_CANCEL:String = "window_status_cancel";
 		
 		public var status:String;
 		

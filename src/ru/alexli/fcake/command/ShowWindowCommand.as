@@ -9,9 +9,9 @@ package ru.alexli.fcake.command
 	
 	public class ShowWindowCommand extends AbstractCommand
 	{
-		private var windowName:String;
-		private var params:Object;
-		private var waitForClose:Boolean;
+		protected var windowName:String;
+		protected var params:Object;
+		protected var waitForClose:Boolean;
 		
 		public function ShowWindowCommand(windowName:String, params:Object = null, waitForClose:Boolean = false)
 		{
@@ -33,7 +33,7 @@ package ru.alexli.fcake.command
 		}
 		
 		//evenst
-		private function onWindowClose(evt:Event):void{
+		protected function onWindowClose(evt:Event):void{
 			notifyComplete();
 		}
 	}

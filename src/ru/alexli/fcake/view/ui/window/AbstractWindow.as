@@ -13,8 +13,6 @@ package ru.alexli.fcake.view.ui.window
 	[Event(name="window_close", type="ru.finam.games.islands.view.ui.WindowEvent")]
 	public class AbstractWindow extends AbstractVisualObject
 	{
-		public var status:String = WindowStatus.OK;
-		
 		protected var _modal:Boolean;
 		
 		public function get modal():Boolean{
