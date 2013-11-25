@@ -15,6 +15,7 @@ package ru.alexli.fcake.view.skinable
 	{
 		
 		private var container:Sprite;
+		private var display:DisplayObject;
 		
 		public function Skin()
 		{
@@ -44,12 +45,17 @@ package ru.alexli.fcake.view.skinable
 			}
 		}
 		
+		public function get content():DisplayObject
+		{
+			return display;
+		}
+		
 		private function commitData():void
 		{
 			var skinClass:Class;
 			
 			try{
-				skinClass = getDefinitionByName(_src) as Class;
+				skinClass = fetchClassByName(_src);
 			}catch(err:Error){
 				Logger.error(err.message);
 			}
@@ -62,7 +68,6 @@ package ru.alexli.fcake.view.skinable
 				}
 				
 				var instance:Object = new skinClass();
-				var display:DisplayObject;
 				
 				if(instance is BitmapData)
 				{
@@ -76,6 +81,11 @@ package ru.alexli.fcake.view.skinable
 				
 				container.addChild(display);
 			}
+		}
+		
+		protected function fetchClassByName(name:String):Class
+		{
+			return getDefinitionByName(name) as Class;
 		}
 		
 		//events

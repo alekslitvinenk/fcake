@@ -18,7 +18,9 @@ package ru.alexli.fcake.view.ui.containers
 			var j:int = (numChildren - 1) % columns;
 			var i:int = (numChildren - 1) / columns;
 			
-			var pt:Point = new Point(j * (_padding.paddingLeft + itemWidth + _padding.paddingRight), i * (_padding.paddingTop + itemHeight + _padding.paddingBottom));
+			var pt:Point = new Point(j * (_padding.paddingLeft + itemWidth + _padding.paddingRight), i * (/*_padding.paddingTop + */itemHeight/* + _padding.paddingBottom*/));
+			
+			pt.y += _padding.paddingTop;
 			
 			if(i > 0){
 				pt.y += _padding.verticalGap * i;
@@ -27,6 +29,9 @@ package ru.alexli.fcake.view.ui.containers
 			if(j > 0){
 				pt.x += _padding.horizontalGap * j;
 			}
+			
+			_usedColums = columns;
+			_usedRows = i - ((columns == 1) ? 1 : 0);
 			
 			return pt;
 		}

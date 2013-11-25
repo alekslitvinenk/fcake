@@ -19,6 +19,9 @@ package ru.alexli.fcake.view.ui.containers
 				pt.y += _padding.verticalGap * i;
 			}
 			
+			_usedColums = 1;
+			_usedRows = numChildren;
+			
 			return pt;
 		}
 	}

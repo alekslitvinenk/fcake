@@ -9,25 +9,39 @@ package ru.alexli.fcake.view.ui.containers
 	
 	public class AlignContainer extends AbstractVisualObject
 	{
-		
-		protected var _itemWidth:Number; 
+		protected var _usedRows:uint;
 
-		public function get itemWidth():Number
+		public function get usedRows():uint
 		{
-			return _itemWidth;
+			return _usedRows;
 		}
 
-		protected var _itemHeight:Number; 
 
-		public function get itemHeight():Number
+		protected var _usedColums:uint;
+
+		public function get usedColums():uint
 		{
-			return _itemHeight;
+			return _usedColums;
 		}
 
 		
 		public function AlignContainer(padding:PaddingVO = null)
 		{
 			_padding = padding || new PaddingVO();
+		}
+		
+		protected var _itemWidth:Number; 
+		
+		public function get itemWidth():Number
+		{
+			return _itemWidth;
+		}
+		
+		protected var _itemHeight:Number; 
+		
+		public function get itemHeight():Number
+		{
+			return _itemHeight;
 		}
 		
 		protected var _padding:PaddingVO

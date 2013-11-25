@@ -11,8 +11,8 @@ package ru.alexli.fcake.view.ui.containers
 	public class ScrollContainer extends AbstractVisualObject
 	{
 		
-		private var rows:uint;
-		private var columns:uint;
+		protected var rows:uint;
+		protected var columns:uint;
 		
 		protected var viewPort:Rectangle;
 		
@@ -108,7 +108,7 @@ package ru.alexli.fcake.view.ui.containers
 		}
 		
 		//events
-		private function onItemAdded(evt:Event):void
+		protected function onItemAdded(evt:Event):void
 		{
 			var obj:DisplayObject = evt.target as DisplayObject;
 			
@@ -119,7 +119,7 @@ package ru.alexli.fcake.view.ui.containers
 					var pad:PaddingVO = _container.padding;
 					
 					var w:Number = columns * (pad.paddingLeft + _container.itemWidth + pad.paddingRight);
-					var h:Number = rows * (pad.paddingTop + _container.itemHeight + pad.paddingBottom);
+					var h:Number = pad.paddingTop + rows * (/*pad.paddingTop + */_container.itemHeight/* + pad.paddingBottom*/);
 					
 					if(w > 1){
 						w += pad.horizontalGap * columns;
