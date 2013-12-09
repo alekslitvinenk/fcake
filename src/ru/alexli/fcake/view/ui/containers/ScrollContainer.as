@@ -2,10 +2,8 @@ package ru.alexli.fcake.view.ui.containers
 {
 	import flash.display.DisplayObject;
 	import flash.events.Event;
-	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
-	import ru.alexli.fcake.utils.Coord;
 	import ru.alexli.fcake.view.AbstractVisualObject;
 	
 	public class ScrollContainer extends AbstractVisualObject
@@ -21,10 +19,19 @@ package ru.alexli.fcake.view.ui.containers
 			_container = container;
 			this.rows = rows;
 			this.columns = columns;
-			addChild(_container);
+			
+			super();
 		}
 		
-		override protected function onShow():void{
+		override protected function init():void
+		{
+			addChild(_container);
+			
+			super.init();
+		}
+		
+		override protected function onShow():void
+		{
 			super.onShow();
 			
 			_container.addEventListener(Event.ADDED, onItemAdded, true);

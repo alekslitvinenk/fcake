@@ -41,12 +41,14 @@ package ru.alexli.fcake.view.ui
 			scrollToZero();
 		}
 		
-		override protected function onShow():void{
+		override protected function onShow():void
+		{
 			super.onShow();
 			commitData();
 		}
 		
-		protected function commitData():void{
+		protected function commitData():void
+		{
 			if(_container && _dataProvider && _itemRenderer)
 			{
 				while(_container.numChildren){

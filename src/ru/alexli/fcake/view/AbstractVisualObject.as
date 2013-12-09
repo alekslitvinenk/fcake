@@ -100,7 +100,8 @@ package ru.alexli.fcake.view
 		 * @param evt
 		 * 
 		 */		
-		private function onAdded(evt:Event):void{
+		private function onAdded(evt:Event):void
+		{
 			evt.stopImmediatePropagation();
 			addEventListener(Event.REMOVED_FROM_STAGE, onRemove);
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
