@@ -1,111 +1,197 @@
 package ru.alexli.fcake.view.ui.button
 {
 	import flash.display.DisplayObject;
-	import flash.display.MovieClip;
 	import flash.display.SimpleButton;
-	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
-	/**
-	 * Простая кнопка с несколькими состояниями
-	 * @author Alexander Litvinenko
-	 * 
-	 */	
-	public class UIButton extends Sprite
+	import ru.alexli.fcake.view.AbstractVisualObject;
+	
+	public class UIButton extends AbstractVisualObject
 	{
+		public static const NORMAL_STATE:String = "normal_state";
+		public static const OVER_STATE:String = "over_state";
+		public static const DOWN_STATE:String = "down_state";
 		
-		public static const STATE_UP:String 	= "up_state";
-		public static const STATE_OVER:String 	= "over_state";
-		public static const STATE_DOWN:String 	= "down_state";
-		
-		private var mapStates:Object = new Object();
-		
-		protected var state:String = STATE_UP;
-		
-		public function UIButton(upState:DisplayObject = null, overState:DisplayObject = null, downState:DisplayObject = null)
+		public function UIButton()
 		{
-			
-			this.upState 	= upState;
-			this.overState 	= overState;
-			this.downState 	= downState;
-			
-			init();
 			super();
 		}
 		
-		protected function init():void{
+		public function createStatesFromSimpleButton(btn:SimpleButton):void
+		{
+			normalState = btn.upState;
+			overState = btn.overState;
+			downState = btn.downState;
+		}
+		
+		private var _normalState:DisplayObject;
+
+		public function get normalState():DisplayObject
+		{
+			return _normalState;
+		}
+
+		public function set normalState(value:DisplayObject):void
+		{	
+			var stateView:DisplayObject = _normalState;
+			
+			if(stateView && stateView.parent && stateView.parent == this)
+			{
+				removeChild(stateView);
+			}
+			
+			_normalState = value;
+			
+			addChild(value);
+		}
+
+		private var _overState:DisplayObject;
+
+		public function get overState():DisplayObject
+		{
+			return _overState;
+		}
+
+		public function set overState(value:DisplayObject):void
+		{
+			var stateView:DisplayObject = _overState;
+			
+			if(stateView && stateView.parent && stateView.parent == this)
+			{
+				removeChild(stateView);
+			}
+			
+			_overState = value;
+			
+			addChild(value);
+		}
+
+		private var _downState:DisplayObject;
+
+		public function get downState():DisplayObject
+		{
+			return _downState;
+		}
+
+		public function set downState(value:DisplayObject):void
+		{
+			var stateView:DisplayObject = _downState;
+			
+			if(stateView && stateView.parent && stateView.parent == this)
+			{
+				removeChild(stateView);
+			}
+			
+			_downState = value;
+			
+			addChild(value);
+		}
+		
+		override protected function init():void
+		{
+			super.init();
 			
 			useHandCursor = buttonMode = true;
+		}
+
+		override protected function onShow():void
+		{
+			super.onShow();
 			
+			listenToMouse();
+			
+			state = NORMAL_STATE;
+		}
+		
+		override protected function onHide():void
+		{
+			super.onHide();
+			
+			unlistenToMouse();
+		}
+		
+		private var _state:String;
+
+		public function get state():String
+		{
+			return _state;
+		}
+
+		public function set state(value:String):void
+		{
+			_state = value;
+			
+			exitState(value);
+			enterState(value);
+		}
+
+		protected function exitState(val:String):void
+		{
+			_normalState.visible = false;
+			_overState.visible = false;
+			_downState.visible = false;
+		}
+		
+		protected function enterState(val:String):void
+		{
+			switch(val)
+			{
+				case NORMAL_STATE:
+				{
+					_normalState.visible = true;
+					break;
+				}
+					
+				case OVER_STATE:
+				{
+					_overState.visible = true;
+					break;
+				}
+					
+				case DOWN_STATE:
+				{
+					_downState.visible = true;
+					break;
+				}
+			}
+		}
+		
+		public function listenToMouse():void
+		{
+			addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
 			addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-			addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			addEventListener(MouseEvent.MOUSE_OVER, onRollOver);
-			addEventListener(MouseEvent.MOUSE_OUT, onRollOut);
+			addEventListener(MouseEvent.CLICK, onMouseClick);
 		}
 		
-		protected function switchState(val:String):void{
-				
-			mapStates[state].visible = false;
-			
-			state = val;
-			
-			mapStates[state].visible = true;
-				
+		public function unlistenToMouse():void
+		{
+			removeEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+			removeEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
+			removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+			removeEventListener(MouseEvent.CLICK, onMouseClick);
 		}
 		
-		protected function setState(clip:DisplayObject, state:String):void{
-			if(clip){
-				clip.visible = false;
-				addChild(clip);
-				
-				mapStates[state] = clip;
-			}
+		//events
+		protected function onMouseOver(evt:Event):void
+		{
+			state = OVER_STATE;
 		}
 		
-		public function set upState(val:DisplayObject):void{
-			setState(val, STATE_UP);
-			if(upState){
-				switchState(STATE_UP);
-			}
+		protected function onMouseOut(evt:Event):void
+		{
+			state = NORMAL_STATE;
 		}
 		
-		public function get upState():DisplayObject{
-			return mapStates[STATE_UP];
+		protected function onMouseDown(evt:Event):void
+		{
+			state = DOWN_STATE
 		}
 		
-		public function set overState(val:DisplayObject):void{
-			setState(val, STATE_OVER);
-		}
-		
-		public function get overState():DisplayObject{
-			return mapStates[STATE_OVER];
-		}
-		
-		
-		public function set downState(val:DisplayObject):void{
-			setState(val, STATE_DOWN);
-		}
-		
-		public function get downState():DisplayObject{
-			return mapStates[STATE_DOWN];
-		}
-		
-		//Event
-		private function onMouseDown(evt:Event):void{
-			switchState(STATE_DOWN);
-		}
-		
-		private function onMouseUp(evt:Event):void{
-			switchState(STATE_OVER);
-		}
-		
-		private function onRollOver(evt:Event):void{
-			switchState(STATE_OVER);
-		}
-		
-		private function onRollOut(evt:Event):void{
-			switchState(STATE_UP);
+		protected function onMouseClick(evt:Event):void
+		{
+			state = NORMAL_STATE;
 		}
 	}
 }
