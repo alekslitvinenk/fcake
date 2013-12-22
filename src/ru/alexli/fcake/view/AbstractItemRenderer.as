@@ -7,6 +7,7 @@ package ru.alexli.fcake.view
 		public function AbstractItemRenderer(data:Object = null)
 		{
 			_data = data;
+			super();
 		}
 		
 		protected var _data:Object;
@@ -33,8 +34,10 @@ package ru.alexli.fcake.view
 			}
 		}
 		
-		override protected function onShow():void
+		override protected function init():void
 		{
+			super.init();
+			
 			if(_data && dirty)
 			{
 				commitData();

@@ -6,6 +6,7 @@ package ru.alexli.fcake.view.ui.button
 	import flash.events.MouseEvent;
 	
 	import ru.alexli.fcake.view.AbstractVisualObject;
+	import ru.alexli.fcake.view.skinable.Skin;
 	
 	public class UIButton extends AbstractVisualObject
 	{
@@ -13,25 +14,48 @@ package ru.alexli.fcake.view.ui.button
 		public static const OVER_STATE:String = "over_state";
 		public static const DOWN_STATE:String = "down_state";
 		
+		public static function createStatesFromSimpleButton(btn:SimpleButton, targetButton:UIButton = null):UIButton
+		{
+			var button:UIButton = targetButton || new UIButton();
+			button.normalState = btn.upState;
+			button.overState = btn.overState;
+			button.downState = btn.downState;
+			
+			return button;
+		}
+		
+		public static function createStatesFromSkins(skins:Array, targetButton:UIButton = null):UIButton
+		{
+			if(skins.length == 1)
+			{
+				skins[1] = skins[0];
+			}
+			
+			if(skins.length == 2)
+			{
+				skins[2] = skins[0];
+			}
+			
+			var button:UIButton = targetButton || new UIButton();
+			button.normalState = new Skin(skins[0]);
+			button.overState = new Skin(skins[1]);
+			button.downState = new Skin(skins[2]);
+			
+			return button;
+		}
+		
 		public function UIButton()
 		{
 			super();
 		}
 		
-		public function createStatesFromSimpleButton(btn:SimpleButton):void
-		{
-			normalState = btn.upState;
-			overState = btn.overState;
-			downState = btn.downState;
-		}
-		
 		private var _normalState:DisplayObject;
-
+		
 		public function get normalState():DisplayObject
 		{
 			return _normalState;
 		}
-
+		
 		public function set normalState(value:DisplayObject):void
 		{	
 			var stateView:DisplayObject = _normalState;
@@ -45,14 +69,14 @@ package ru.alexli.fcake.view.ui.button
 			
 			addChild(value);
 		}
-
+		
 		private var _overState:DisplayObject;
-
+		
 		public function get overState():DisplayObject
 		{
 			return _overState;
 		}
-
+		
 		public function set overState(value:DisplayObject):void
 		{
 			var stateView:DisplayObject = _overState;
@@ -66,14 +90,14 @@ package ru.alexli.fcake.view.ui.button
 			
 			addChild(value);
 		}
-
+		
 		private var _downState:DisplayObject;
-
+		
 		public function get downState():DisplayObject
 		{
 			return _downState;
 		}
-
+		
 		public function set downState(value:DisplayObject):void
 		{
 			var stateView:DisplayObject = _downState;
@@ -94,7 +118,7 @@ package ru.alexli.fcake.view.ui.button
 			
 			useHandCursor = buttonMode = true;
 		}
-
+		
 		override protected function onShow():void
 		{
 			super.onShow();
@@ -112,12 +136,12 @@ package ru.alexli.fcake.view.ui.button
 		}
 		
 		private var _state:String;
-
+		
 		public function get state():String
 		{
 			return _state;
 		}
-
+		
 		public function set state(value:String):void
 		{
 			_state = value;
@@ -125,7 +149,7 @@ package ru.alexli.fcake.view.ui.button
 			exitState(value);
 			enterState(value);
 		}
-
+		
 		protected function exitState(val:String):void
 		{
 			_normalState.visible = false;
@@ -195,3 +219,4 @@ package ru.alexli.fcake.view.ui.button
 		}
 	}
 }
+

@@ -1,6 +1,5 @@
 package ru.alexli.fcake.view.skinable
 {
-	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
@@ -9,25 +8,34 @@ package ru.alexli.fcake.view.skinable
 	
 	import ru.alexli.fcake.utils.log.Logger;
 	import ru.alexli.fcake.view.AbstractVisualObject;
+	import ru.alexli.fcake.view.utils.DisplayUtils;
 	
 	[Event(name="change", type="flash.events.Event")]
 	public class Skin extends AbstractVisualObject
 	{
-		
 		private var container:Sprite;
 		private var display:DisplayObject;
 		
-		public function Skin()
+		public function Skin(src:String = null)
 		{
-			super();
+			if(src)
+			{
+				_src = src;
+				commitData();
+			}
 		}
 		
 		override protected function init():void
 		{
+			super.init();
+			
 			addChild(container = new Sprite());
 			container.addEventListener(Event.ADDED, onItemAdded);
 			
-			super.init();
+			if(_src)
+			{
+				commitData();
+			}
 		}
 		
 		private var _src:String;
@@ -71,10 +79,7 @@ package ru.alexli.fcake.view.skinable
 				
 				if(instance is BitmapData)
 				{
-					var bmp:Bitmap = new Bitmap(BitmapData(instance));
-					bmp.smoothing = true;
-					
-					display = bmp;
+					display = DisplayUtils.createBitmapFromBitmapDta(instance as BitmapData);
 				}else{
 					display = instance as DisplayObject;
 				}
