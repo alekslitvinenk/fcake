@@ -45,7 +45,7 @@ package ru.alexli.fcake.view.preload
 		{
 			var mainClass:Class = Class(getDefinitionByName(mainClassName));
 			var instance:DisplayObject = new mainClass();
-			addChild(instance);
+			addChildAt(instance, 0);
 		}
 		
 		//events

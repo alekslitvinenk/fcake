@@ -24,7 +24,7 @@ package ru.alexli.fcake.command.net
 	public class AbstractServerCommand extends AbstractCommand
 	{
 		
-		protected var data:URLVariables = new URLVariables();
+		protected var data:Object = {};
 		
 		protected var loader:URLLoader = new URLLoader();
 		

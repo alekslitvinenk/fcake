@@ -13,7 +13,8 @@ package ru.alexli.fcake.utils
 		 * Анимация покачивания машинки, когда в нее падают монетки или сажают демонстранта 
 		 * 
 		 */		
-		public static function jiggle(obj:DisplayObject, onEndAnimation:Function = null, args:Array = null):void{
+		public static function jiggle(obj:DisplayObject, onEndAnimation:Function = null, args:Array = null):void
+		{
 			Tweener.removeTweens(obj);
 			
 			//normalizePosition();
@@ -29,7 +30,8 @@ package ru.alexli.fcake.utils
 		 * @param onEndAnimation
 		 * 
 		 */		
-		public static function zoomInOut(obj:DisplayObject, scale:Number = 1.1, time:Number = 0.1, onEndAnimation:Function = null, args:Array = null):void{
+		public static function zoomInOut(obj:DisplayObject, scale:Number = 1.1, time:Number = 0.1, onEndAnimation:Function = null, args:Array = null):void
+		{
 			Tweener.removeTweens(obj);
 			
 			//normalizePosition();
@@ -44,7 +46,8 @@ package ru.alexli.fcake.utils
 		 * @param onEndAnimation функция которая должна выполниться после завершения анимации
 		 * 
 		 */			
-		public static function jump(obj:DisplayObject, onEndAnimation:Function = null, args:Array = null):void{
+		public static function jump(obj:DisplayObject, onEndAnimation:Function = null, args:Array = null):void
+		{
 			Tweener.removeTweens(obj);
 			
 			//normalizePosition();
@@ -56,11 +59,33 @@ package ru.alexli.fcake.utils
 			Tweener.addTween(obj, {y: startPos, time: 0.1, delay: 0.1, transition: "easeInQuart", onComplete: onEndAnimation, onCompleteParams: args});
 		}
 		
-		public static function setPos(obj:DisplayObject, pt:Point, onEndAnimation:Function = null, args:Array = null):void{
+		public static function touchRightBottom(obj:DisplayObject, onEndAnimation:Function = null, args:Array = null):void
+		{
+			Tweener.removeTweens(obj);
+			
+			var startXPos:Number = obj.x;
+			var endXPos:Number = obj.x + 5;
+			
+			var startYPos:Number = obj.y;
+			var endYPos:Number = obj.y + 5;
+			
+			Tweener.addTween(obj, {x: endXPos, y: endYPos, time: 0.03, transition: "easeOutQuart"});
+			Tweener.addTween(obj, {x:startXPos, y:startYPos, time: 0.03, delay: 0.1, transition: "easeInQuart", onComplete: onEndAnimation, onCompleteParams: args});
+		}
+		
+		public static function blinkWithFade(obj:DisplayObject, onEndAnimation:Function = null, args:Array = null):void
+		{
+			Tweener.addTween(obj, {alpha: 1, time: 0.3, transition: "easeOutQuart"});
+			Tweener.addTween(obj, {alpha: 0, time: 0.3, delay: 0.3, transition: "easeOutQuart", onComplete: onEndAnimation, onCompleteParams: args});
+		}
+		
+		public static function setPos(obj:DisplayObject, pt:Point, onEndAnimation:Function = null, args:Array = null):void
+		{
 			Tweener.addTween(obj, {x: pt.x, y: pt.y, time: 1, transition: "easeInQuart", onComplete: onEndAnimation, onCompleteParams: args});
 		}
 		
-		private static function removeObj(target:DisplayObject):void{
+		private static function removeObj(target:DisplayObject):void
+		{
 			var parent:DisplayObjectContainer = target.parent;
 			
 			if(parent){

@@ -2,11 +2,12 @@ package ru.alexli.fcake.view
 {
 	public class AbstractItemRenderer extends AbstractVisualObject
 	{
-		private var dirty:Boolean;
+		private var dirty:Boolean = true;
 		
 		public function AbstractItemRenderer(data:Object = null)
 		{
 			_data = data;
+			
 			super();
 		}
 		
@@ -38,7 +39,7 @@ package ru.alexli.fcake.view
 		{
 			super.init();
 			
-			if(_data && dirty)
+			if((_data != null) && dirty)
 			{
 				commitData();
 				

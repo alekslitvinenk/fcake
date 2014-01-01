@@ -2,6 +2,7 @@ package ru.alexli.fcake.view.ui.button
 {
 	import flash.display.DisplayObject;
 	import flash.display.SimpleButton;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
@@ -44,6 +45,8 @@ package ru.alexli.fcake.view.ui.button
 			return button;
 		}
 		
+		private var statesContainer:Sprite
+		
 		public function UIButton()
 		{
 			super();
@@ -60,14 +63,14 @@ package ru.alexli.fcake.view.ui.button
 		{	
 			var stateView:DisplayObject = _normalState;
 			
-			if(stateView && stateView.parent && stateView.parent == this)
+			if(stateView && stateView.parent && stateView.parent == statesContainer)
 			{
-				removeChild(stateView);
+				statesContainer.removeChild(stateView);
 			}
 			
 			_normalState = value;
 			
-			addChild(value);
+			statesContainer.addChild(value);
 		}
 		
 		private var _overState:DisplayObject;
@@ -81,14 +84,14 @@ package ru.alexli.fcake.view.ui.button
 		{
 			var stateView:DisplayObject = _overState;
 			
-			if(stateView && stateView.parent && stateView.parent == this)
+			if(stateView && stateView.parent && stateView.parent == statesContainer)
 			{
-				removeChild(stateView);
+				statesContainer.removeChild(stateView);
 			}
 			
 			_overState = value;
 			
-			addChild(value);
+			statesContainer.addChild(value);
 		}
 		
 		private var _downState:DisplayObject;
@@ -102,37 +105,36 @@ package ru.alexli.fcake.view.ui.button
 		{
 			var stateView:DisplayObject = _downState;
 			
-			if(stateView && stateView.parent && stateView.parent == this)
+			if(stateView && stateView.parent && stateView.parent == statesContainer)
 			{
-				removeChild(stateView);
+				statesContainer.removeChild(stateView);
 			}
 			
 			_downState = value;
 			
-			addChild(value);
+			statesContainer.addChild(value);
 		}
 		
 		override protected function init():void
 		{
-			super.init();
+			addChild(statesContainer = new Sprite());
+			statesContainer.mouseEnabled = false;
+			statesContainer.mouseChildren = false;
 			
 			useHandCursor = buttonMode = true;
+			
+			listenToMouse();
+			
+			super.init();
 		}
 		
 		override protected function onShow():void
 		{
 			super.onShow();
 			
-			listenToMouse();
+			//listenToMouse();
 			
 			state = NORMAL_STATE;
-		}
-		
-		override protected function onHide():void
-		{
-			super.onHide();
-			
-			unlistenToMouse();
 		}
 		
 		private var _state:String;
@@ -210,7 +212,7 @@ package ru.alexli.fcake.view.ui.button
 		
 		protected function onMouseDown(evt:Event):void
 		{
-			state = DOWN_STATE
+			state = DOWN_STATE;
 		}
 		
 		protected function onMouseClick(evt:Event):void

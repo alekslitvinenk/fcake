@@ -16,7 +16,6 @@ package ru.alexli.fcake.view.ui.containers
 			return _usedRows;
 		}
 
-
 		protected var _usedColums:uint;
 
 		public function get usedColums():uint
@@ -56,24 +55,28 @@ package ru.alexli.fcake.view.ui.containers
 			_padding = value;
 		}
 
-		override protected function init():void{
+		override protected function init():void
+		{
 			super.init();
 			
 			addEventListener(Event.ADDED, onItemAdded, true);
 		}
 		
-		virtual protected function getNextObjPos():Point{
+		virtual protected function getNextObjPos():Point
+		{
 			return null;
 		}
 		
-		public function addChildren(children:Array):void{
-			for(var i:uint = 0; i < children.length; i++){
+		public function addChildren(children:Array):void
+		{
+			for(var i:uint = 0; i < children.length; i++)
+			{
 				addChild(children[i]);
 			}
 		}
 		
 		//events
-		private function onItemAdded(evt:Event):void
+		protected function onItemAdded(evt:Event):void
 		{
 			//evt.stopPropagation();
 			
@@ -86,6 +89,7 @@ package ru.alexli.fcake.view.ui.containers
 					_itemWidth = obj.width;
 					_itemHeight = obj.height;
 				}
+				
 				Coord.move(getNextObjPos(), obj);
 			}
 		}

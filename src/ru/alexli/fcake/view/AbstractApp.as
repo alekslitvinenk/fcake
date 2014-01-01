@@ -5,6 +5,7 @@ package ru.alexli.fcake.view
 	import ru.alexli.fcake.command.AbstractCommand;
 	import ru.alexli.fcake.command.load.LoadSequenceCommand;
 	import ru.alexli.fcake.command.load.LoaderData;
+	import ru.alexli.fcake.command.load.LoaderEvent;
 	import ru.alexli.fcake.view.preload.AbstractPreloader;
 	import ru.alexli.fcake.view.preload.IPreloaderAnimation;
 
@@ -24,6 +25,8 @@ package ru.alexli.fcake.view
 			if(!_initSequence)
 			{
 				_initSequence = new LoadSequenceCommand();
+				_initSequence.addEventListener(Event.COMPLETE, onLoadSequenceComplete);
+				_initSequence.addEventListener(LoaderEvent.LOADER_PROGRESS, onLoadSequenceProgress);
 			}
 			
 			return _initSequence;
@@ -65,10 +68,20 @@ package ru.alexli.fcake.view
 			}
 		}
 		
+		protected function startInitSequence():void
+		{
+			initSequence.execute();
+		}
+		
 		//events
 		private function onLoadSequenceComplete(evt:Event):void
 		{
 			onAppInited();
+		}
+		
+		private function onLoadSequenceProgress(evt:LoaderEvent):void
+		{
+			preloaderAnimation.addProgress(evt.weight);
 		}
 	}
 }

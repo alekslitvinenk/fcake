@@ -5,6 +5,7 @@ package ru.alexli.fcake.view.preload
 	public interface IPreloaderAnimation
 	{
 		function setProgress(progress:Number):void;
+		function addProgress(progress:Number):void
 		function get display():DisplayObject;
 	}
 }
