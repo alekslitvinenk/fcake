@@ -6,9 +6,15 @@ package ru.alexli.fcake.utils
 	import flash.geom.Rectangle;
 	
 	import caurina.transitions.Tweener;
+	import caurina.transitions.properties.ColorShortcuts;
 
 	public class TweenShortcuts
 	{
+		public static function initColors():void
+		{
+			ColorShortcuts.init();
+		}
+		
 		/**
 		 * Анимация покачивания машинки, когда в нее падают монетки или сажают демонстранта 
 		 * 
@@ -73,10 +79,23 @@ package ru.alexli.fcake.utils
 			Tweener.addTween(obj, {x:startXPos, y:startYPos, time: 0.03, delay: 0.1, transition: "easeInQuart", onComplete: onEndAnimation, onCompleteParams: args});
 		}
 		
-		public static function blinkWithFade(obj:DisplayObject, onEndAnimation:Function = null, args:Array = null):void
+		public static function blinkWithFade(obj:DisplayObject, onEndAnimation:Function = null, args:Array = null, prop:String = "alpha", startVal:Number = 1, endVal:Number = 0, time:Number = 0.3):void
 		{
-			Tweener.addTween(obj, {alpha: 1, time: 0.3, transition: "easeOutQuart"});
-			Tweener.addTween(obj, {alpha: 0, time: 0.3, delay: 0.3, transition: "easeOutQuart", onComplete: onEndAnimation, onCompleteParams: args});
+			var props:Object = {};
+			props[prop] = startVal;
+			props.time = time;
+			props.transition = "easeOutQuart";
+			
+			var props2:Object = {};
+			props2[prop] = endVal;
+			props2.time = time;
+			props2.delay = time;
+			props2.transition = "easeOutQuart";
+			props2.onComplete = onEndAnimation;
+			props2.onCompleteParams = args;
+			
+			Tweener.addTween(obj, props);
+			Tweener.addTween(obj, props2);
 		}
 		
 		public static function setPos(obj:DisplayObject, pt:Point, onEndAnimation:Function = null, args:Array = null):void

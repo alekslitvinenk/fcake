@@ -38,7 +38,7 @@ package ru.alexli.fcake.view
 			
 			preloaderAnimation = AbstractPreloader(root).preloaderAnimation;
 			
-			onAppLoaded();
+			onAppCreated();
 		}
 		
 		/**
@@ -46,7 +46,7 @@ package ru.alexli.fcake.view
 		 * Сюда можно добавить комманды предварительной инициализации клиента если понадобится 
 		 * 
 		 */		
-		protected virtual function onAppLoaded():void
+		protected virtual function onAppCreated():void
 		{
 			
 		}

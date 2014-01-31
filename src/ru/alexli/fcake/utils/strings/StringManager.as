@@ -25,11 +25,13 @@ package ru.alexli.fcake.utils.strings
 		 * @return 
 		 * 
 		 */		
-		public static function getString(id:uint, ...params):String{
+		public static function getString(id:*, ...params):String{
 			if (!_strings)  return "String." + id;
 			if (!_strings[id])  return "String." + id;
 			
 			var str:String = _strings[id];
+			
+			str = unescape(str);
 			
 			if(str){
 				str = printf(str, params);

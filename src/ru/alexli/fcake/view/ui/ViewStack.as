@@ -8,7 +8,7 @@ package ru.alexli.fcake.view.ui
 	[Event(name="change", type="flash.events.Event")]
 	public class ViewStack extends AbstractVisualObject
 	{
-		private var states:Array = [];
+		protected var states:Array = [];
 		
 		public function ViewStack()
 		{
@@ -31,7 +31,10 @@ package ru.alexli.fcake.view.ui
 		
 		public function registerState(state:String, view:DisplayObject):void
 		{
-			states[state] = view;
+			var stateView:StateView = view is StateView ? (view as StateView) : new StateView(view);
+			stateView.viewStack = this;
+			
+			states[state] = stateView;
 		}
 		
 		private var _state:String;
