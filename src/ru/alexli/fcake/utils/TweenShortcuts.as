@@ -7,6 +7,7 @@ package ru.alexli.fcake.utils
 	
 	import caurina.transitions.Tweener;
 	import caurina.transitions.properties.ColorShortcuts;
+	import caurina.transitions.properties.CurveModifiers;
 
 	public class TweenShortcuts
 	{
@@ -15,19 +16,29 @@ package ru.alexli.fcake.utils
 			ColorShortcuts.init();
 		}
 		
+		public static function initCurves():void
+		{
+			CurveModifiers.init();
+		}
+		
 		/**
 		 * Анимация покачивания машинки, когда в нее падают монетки или сажают демонстранта 
 		 * 
 		 */		
-		public static function jiggle(obj:DisplayObject, onEndAnimation:Function = null, args:Array = null):void
+		public static function jiggle(obj:DisplayObject, onEndAnimation:Function = null, args:Array = null, min:Number = -7, max:Number = 7, time:Number = 0.1, normalize:Boolean = true):void
 		{
 			Tweener.removeTweens(obj);
 			
-			//normalizePosition();
-			
-			Tweener.addTween(obj, {rotation: -7, time: 0.1, transition: "linear"});
-			Tweener.addTween(obj, {rotation: 7, time: 0.1, delay: 0.1, transition: "linear"});
-			Tweener.addTween(obj, {rotation: 0, time: 0.1, delay: 0.2, transition: "linear", onComplete: onEndAnimation, onCompleteParams: args});
+			if(normalize)
+			{
+				Tweener.addTween(obj, {rotation: min, time: time, transition: "linear"});
+				Tweener.addTween(obj, {rotation: max, time: time, delay: time, transition: "linear"});
+				Tweener.addTween(obj, {rotation: 0, time: time, delay: 2 * time, transition: "linear", onComplete: onEndAnimation, onCompleteParams: args});
+			}else
+			{
+				Tweener.addTween(obj, {rotation: min, time: time, transition: "linear"});
+				Tweener.addTween(obj, {rotation: max, time: time, delay: time, transition: "linear", onComplete: onEndAnimation, onCompleteParams: args});
+			}
 		}
 		
 		/**
@@ -44,7 +55,7 @@ package ru.alexli.fcake.utils
 			var delay:Number = 0.1;
 			
 			Tweener.addTween(obj, {scaleX: scale, scaleY:scale, time: time, delay: delay, transition: "easeOutQuart"});
-			Tweener.addTween(obj, {scaleX: 1, scaleY: 1, time: 0.1, delay: time + delay, transition: "easeOutQuart", onComplete: onEndAnimation, onCompleteParams: args});
+			Tweener.addTween(obj, {scaleX: 1, scaleY: 1, time: time, delay: time + delay, transition: "easeOutQuart", onComplete: onEndAnimation, onCompleteParams: args});
 		}
 		
 		/**
@@ -79,6 +90,12 @@ package ru.alexli.fcake.utils
 			Tweener.addTween(obj, {x:startXPos, y:startYPos, time: 0.03, delay: 0.1, transition: "easeInQuart", onComplete: onEndAnimation, onCompleteParams: args});
 		}
 		
+		public static function upAndDown(obj:DisplayObject, onEndAnimation:Function = null, args:Array = null, startPos:Number = 25, endPos:Number = 0, time:Number = 1):void
+		{
+			Tweener.addTween(obj, {y: startPos, time: time, transition: "linear"});
+			Tweener.addTween(obj, {y: endPos, time: time, delay: time, transition: "linear", onComplete: onEndAnimation, onCompleteParams: args});
+		}
+		
 		public static function blinkWithFade(obj:DisplayObject, onEndAnimation:Function = null, args:Array = null, prop:String = "alpha", startVal:Number = 1, endVal:Number = 0, time:Number = 0.3):void
 		{
 			var props:Object = {};
@@ -101,6 +118,30 @@ package ru.alexli.fcake.utils
 		public static function setPos(obj:DisplayObject, pt:Point, onEndAnimation:Function = null, args:Array = null):void
 		{
 			Tweener.addTween(obj, {x: pt.x, y: pt.y, time: 1, transition: "easeInQuart", onComplete: onEndAnimation, onCompleteParams: args});
+		}
+		
+		public static function move(obj:DisplayObject, pt:Point, onEndAnimation:Function = null, args:Array = null, time:Number = 1):void
+		{
+			Tweener.addTween(obj, {x: pt.x, y: pt.y, time: time, transition: "linear", onComplete: onEndAnimation, onCompleteParams: args});
+		}
+		
+		public static function makeBesierArray(p:Array):Array
+		{
+			var bezier:Array = [];
+			// convert all points between p[0] and p[last]
+			for (var i:int = 1; i < p.length -2; i++)
+			{
+				var b1:Object = {}, b2:Object = {};
+				
+				b1.x = -p[i -1].x/6 +p[i].x +p[i +1].x/6;
+				b2.x = +p[i].x/6 +p[i +1].x -p[i +2].x/6;
+				
+				b1.y = -p[i -1].y/6 +p[i].y +p[i +1].y/6;
+				b2.y = +p[i].y/6 +p[i +1].y -p[i +2].y/6;
+				
+				bezier.push(b1); bezier.push(b2);
+			}
+			return bezier;
 		}
 		
 		private static function removeObj(target:DisplayObject):void
