@@ -15,6 +15,7 @@ package ru.alexli.fcake.view.utils
 			if(obj.graphics && obj.graphics is Graphics)
 			{
 				var g:Graphics = obj.graphics;
+				g.clear();
 				g.beginFill(fill, alpha);
 				g.drawRect(0, 0, w, h);
 				g.endFill();
