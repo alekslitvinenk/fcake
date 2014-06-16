@@ -36,9 +36,16 @@ package ru.alexli.fcake.view
 		{
 			super.onShow();
 			
-			preloaderAnimation = AbstractPreloader(root).preloaderAnimation;
-			
-			onAppCreated();
+			try
+			{
+				preloaderAnimation = AbstractPreloader(root).preloaderAnimation;
+			}catch(err:Error)
+			{
+				
+			}finally
+			{
+				onAppCreated();
+			}
 		}
 		
 		/**
@@ -62,10 +69,8 @@ package ru.alexli.fcake.view
 		
 		protected function addInitCommand(cmd:AbstractCommand, w:Number):void
 		{
-			if(preloaderAnimation)
-			{
-				initSequence.addLoader(new LoaderData(cmd, w));
-			}
+			
+			initSequence.addLoader(new LoaderData(cmd, w));
 		}
 		
 		protected function startInitSequence():void
@@ -81,7 +86,10 @@ package ru.alexli.fcake.view
 		
 		private function onLoadSequenceProgress(evt:LoaderEvent):void
 		{
-			preloaderAnimation.addProgress(evt.weight);
+			if(preloaderAnimation)
+			{
+				preloaderAnimation.addProgress(evt.weight);
+			}
 		}
 	}
 }

@@ -19,9 +19,12 @@ package ru.alexli.fcake.view.preload
 		{
 			stop();
 			
-			stage.scaleMode = StageScaleMode.NO_SCALE;
-			stage.align = StageAlign.TOP_LEFT;
-			stage.addEventListener(Event.RESIZE, onStageResize);
+			if(stage)
+			{
+				stage.scaleMode = StageScaleMode.NO_SCALE;
+				stage.align = StageAlign.TOP_LEFT;
+				stage.addEventListener(Event.RESIZE, onStageResize);
+			}
 			
 			initPreleader();
 			
