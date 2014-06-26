@@ -18,6 +18,13 @@ package ru.alexli.fcake.command
 		 */		
 		private static var runningInstances:Array = new Array();
 		
+		private var _isExecuting:Boolean;
+
+		public function get isReqSent():Boolean
+		{
+			return _isExecuting;
+		}
+		
 		/**
 		 * Конструктор 
 		 * 
@@ -30,13 +37,13 @@ package ru.alexli.fcake.command
 		 * Начинает выполнение комманды 
 		 * 
 		 */		
-		public function execute():void{
+		public function execute():void
+		{
 			runningInstances[runningInstances.length] = this;
-			//try{
-				execInternal();
-			/*}catch(err:Error){
-				Logger.error("AbstractCommand:" ,err);
-			}*/
+			
+			_isExecuting = true;
+			
+			execInternal();
 		}
 		
 		/**
@@ -44,8 +51,8 @@ package ru.alexli.fcake.command
 		 * Необходимо переопределить в потомках
 		 * 
 		 */		
-		protected function execInternal():void{
-			
+		protected function execInternal():void
+		{
 		}
 		
 		/**
@@ -54,14 +61,21 @@ package ru.alexli.fcake.command
 		 * Этот метод нужно вызывать вручную после того как команда выполнила все необходимые действия
 		 * 
 		 */		
-		protected function notifyComplete():void{
+		protected function notifyComplete():void
+		{
+			_isExecuting = false;
+			
 			var len:uint = runningInstances.length;
-			for(var i:uint = 0; i < len; ++i){
-				if(runningInstances[i] === this){
+			
+			for(var i:uint = 0; i < len; ++i)
+			{
+				if(runningInstances[i] === this)
+				{
 					runningInstances.splice(i, 1);
 					break;
 				}
 			}
+			
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
 	}
