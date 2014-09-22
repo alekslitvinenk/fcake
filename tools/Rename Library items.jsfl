@@ -1,0 +1,1 @@
+﻿var postfix = prompt("Enter postfix for renamed library items");if(postfix){	var items = fl.getDocumentDOM().library.items;		for (var i=0; i<items.length; i++)	{		items[i].name += postfix;	}}else{	alert("You didn't entered postfix!");}

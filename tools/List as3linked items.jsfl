@@ -1,0 +1,1 @@
+﻿var doc = fl.getDocumentDOM();var lib = doc.library;var output = "[";for(var i = 0; i < lib.items.length; i++){	var item = lib.items[i];		if(item.linkageExportForAS)	{		output += item.linkageClassName;				if(i != (lib.items.length - 1))		{			output += ",";		}	}}output += "]";fl.trace(output);
