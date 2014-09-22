@@ -120,7 +120,7 @@ package ru.alexli.fcake.utils
 			Tweener.addTween(obj, {x: pt.x, y: pt.y, time: 1, transition: "easeInQuart", onComplete: onEndAnimation, onCompleteParams: args});
 		}
 		
-		public static function move(obj:DisplayObject, pt:Point, onEndAnimation:Function = null, args:Array = null, time:Number = 1):void
+		public static function move(obj:DisplayObject, pt:Point, onEndAnimation:Function = null, args:Array = null, time:Number = 1, transition:String = "linear"):void
 		{
 			Tweener.addTween(obj, {x: pt.x, y: pt.y, time: time, transition: "linear", onComplete: onEndAnimation, onCompleteParams: args});
 		}

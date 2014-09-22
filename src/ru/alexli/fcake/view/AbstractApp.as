@@ -36,9 +36,23 @@ package ru.alexli.fcake.view
 		{
 			super.onShow();
 			
-			preloaderAnimation = AbstractPreloader(root).preloaderAnimation;
+			var preloader:AbstractPreloader = root as AbstractPreloader;
+			
+			if(preloader)
+			{
+				preloaderAnimation = preloader.preloaderAnimation;
+			}
 			
 			onAppCreated();
+			
+			if(_initSequence && !_initSequence.isExecutting)
+			{
+				initSequence.execute();
+			}else
+			{
+				hidePreloader();
+				onAppInited();
+			}
 		}
 		
 		/**
@@ -62,26 +76,36 @@ package ru.alexli.fcake.view
 		
 		protected function addInitCommand(cmd:AbstractCommand, w:Number):void
 		{
-			if(preloaderAnimation)
-			{
-				initSequence.addLoader(new LoaderData(cmd, w));
-			}
+			initSequence.addLoader(new LoaderData(cmd, w));
 		}
 		
+		[Deprecated]
 		protected function startInitSequence():void
 		{
 			initSequence.execute();
+		}
+		
+		protected function hidePreloader():void
+		{
+			if(preloaderAnimation)
+			{
+				preloaderAnimation.display.parent.removeChild(preloaderAnimation.display);
+			}
 		}
 		
 		//events
 		private function onLoadSequenceComplete(evt:Event):void
 		{
 			onAppInited();
+			hidePreloader();
 		}
 		
 		private function onLoadSequenceProgress(evt:LoaderEvent):void
 		{
-			preloaderAnimation.addProgress(evt.weight);
+			if(preloaderAnimation)
+			{
+				preloaderAnimation.addProgress(evt.weight);
+			}
 		}
 	}
 }
