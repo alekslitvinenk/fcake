@@ -20,7 +20,7 @@ package ru.alexli.fcake.command
 		
 		private var _isExecuting:Boolean;
 
-		public function get isReqSent():Boolean
+		public function get isExecutting():Boolean
 		{
 			return _isExecuting;
 		}

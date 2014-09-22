@@ -45,9 +45,13 @@ package ru.alexli.fcake.view
 			
 			onAppCreated();
 			
-			if(_initSequence && !_initSequence.isReqSent)
+			if(_initSequence && !_initSequence.isExecutting)
 			{
 				initSequence.execute();
+			}else
+			{
+				hidePreloader();
+				onAppInited();
 			}
 		}
 		
@@ -81,10 +85,19 @@ package ru.alexli.fcake.view
 			initSequence.execute();
 		}
 		
+		protected function hidePreloader():void
+		{
+			if(preloaderAnimation)
+			{
+				preloaderAnimation.display.parent.removeChild(preloaderAnimation.display);
+			}
+		}
+		
 		//events
 		private function onLoadSequenceComplete(evt:Event):void
 		{
 			onAppInited();
+			hidePreloader();
 		}
 		
 		private function onLoadSequenceProgress(evt:LoaderEvent):void
