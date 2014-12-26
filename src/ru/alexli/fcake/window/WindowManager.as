@@ -34,7 +34,7 @@ package ru.alexli.fcake.window
 		
 		private var windowsCache:Object = {};
 		
-		private var modal:ModalShield = new ModalShield();
+		public var modal:ModalShield = new ModalShield();
 		
 		/**
 		 * Флаг, указывающий на то, что было показано терминальное окно 
